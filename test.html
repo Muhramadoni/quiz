@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kuis Setuju atau Tidak</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      /* Background global */
+      body {
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #1e1e1e;
+        color: white;
+      }
+
+      /* Kartu utama */
+      .container {
+        text-align: center;
+        background: #dc143c;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        color: white;
+        max-width: 500px;
+      }
+
+      /* Pertanyaan */
+      h2 {
+        font-size: 22px;
+      }
+
+      /* Tombol */
+      .buttons {
+        margin-top: 20px;
+        position: relative;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        margin: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        transition: 0.3s;
+      }
+
+      .yes-btn {
+        background-color: #e5e5e5;
+        color: #dc143c;
+      }
+
+      .no-btn {
+        background-color: black;
+        color: white;
+        position: relative;
+      }
+
+      /* Efek Hover */
+      .yes-btn:hover {
+        background-color: white;
+        color: crimson;
+        transform: scale(1.1);
+      }
+
+      .no-btn:hover {
+        background-color: gray;
+      }
+
+      /* Countdown */
+      #countdown {
+        margin-top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 id="question">1. Apakah kamu suka belajar hal baru?</h2>
+      <div class="buttons">
+        <button class="btn yes-btn" id="yes-btn" onclick="nextQuestion(true)">Setuju</button>
+        <button class="btn no-btn" id="no-btn" onclick="nextQuestion(false)">Tidak Setuju</button>
+      </div>
+      <p id="countdown"></p>
+    </div>
+
+    <script>
+      let currentQuestion = 1;
+      const questions = [
+        "1. Apakah kamu suka belajar hal baru?",
+        "2. Apakah kamu menyukai tantangan?",
+        "3. Apakah kamu ingin menjadi lebih baik?",
+        "4. Apakah kamu suka berpikir kreatif?",
+        "5. Mau ngoding bareng?",
+      ];
+
+      let noBtn = document.getElementById("no-btn");
+
+      function nextQuestion(agree) {
+        if (currentQuestion < 5) {
+          currentQuestion++;
+          document.getElementById("question").innerText = questions[currentQuestion - 1];
+        } else {
+          if (!agree) {
+            noBtn.style.position = "absolute";
+            noBtnMove(); // Langsung buat kabur pas diklik
+          } else {
+            let countdown = 5;
+            document.getElementById("countdown").innerText = `Tunggu ${countdown} detik...`;
+
+            let interval = setInterval(() => {
+              countdown--;
+              document.getElementById("countdown").innerText = `Tunggu ${countdown} detik...`;
+
+              if (countdown === 0) {
+                clearInterval(interval);
+                document.getElementById("countdown").innerText = "Mantap! Ayo ngoding bareng!";
+              }
+            }, 1000);
+          }
+        }
+      }
+
+      function noBtnMove() {
+        let x = Math.random() * (window.innerWidth - 100);
+        let y = Math.random() * (window.innerHeight - 50);
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+      }
+
+      noBtn.addEventListener("mouseenter", function () {
+        if (noBtn.style.position === "absolute") {
+          noBtnMove();
+        }
+      });
+    </script>
+  </body>
+</html>
